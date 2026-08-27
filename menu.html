@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- وسوم الميتا (تُحدّث برمجياً عبر app.js) -->
+    <title>قائمة الطعام الإلكترونية | تيليانو</title>
+    <meta name="description" content="تصفح قائمة الطعام بجميع تفاصيلها وأسعارها ومكوناتها.">
+    <meta property="og:title" id="og-title" content="قائمة الطعام | تيليانو">
+    <meta property="og:description" id="og-desc" content="تصفح قائمة الطعام الإيطالية الفاخرة">
+    <meta property="og:image" id="og-image" content="">
+    <meta property="og:type" content="website">
+    <link rel="icon" id="dynamic-favicon" href="data:,">
+
+    <!-- تسريع مسار المعالجة الحرج: تحميل الخطوط بـ preconnect بدون تأخير @import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap">
+
+    <link rel="stylesheet" href="style.css?v=7">
+
+    <!-- تحميل السكربتات بـ defer لمنع تجميد شجرة DOM -->
+    <script src="menu-data.js?v=9" defer></script>
+    <script src="app.js?v=11" defer></script>
+</head>
+
+<body>
+
+    <!-- الترويسة وشريط التنقل العلوي الثابت -->
+    <header class="top-app-bar" role="banner">
+        <div class="top-app-bar-header">
+            <div class="top-bar-side-space" aria-hidden="true"></div>
+            <div class="logo-container" id="brand-logo-wrapper">
+                <!-- يُحقن الشعار هنا -->
+            </div>
+            <button type="button" class="lang-switch-btn ripple-surface" id="langSwitchBtn"
+                aria-label="Change Language">
+                <span id="langSwitchText">EN</span>
+            </button>
+        </div>
+
+        <!-- شريط تصنيفات التنقل السريع -->
+        <nav class="md-tabs" id="dynamic-navbar" aria-label="أقسام القائمة"></nav>
+    </header>
+
+    <!-- شريط فلاتر الحساسية والمكونات -->
+    <section class="chip-group-wrapper" aria-label="فلاتر الحساسية والمكونات">
+        <div class="chip-group" id="dynamic-filters" role="group" aria-label="تصفية حسب مسببات الحساسية"></div>
+    </section>
+
+    <!-- حاوية عرض الأقسام والبطاقات -->
+    <main id="dynamic-menu" role="main"></main>
+
+    <!-- النافذة المنبثقة لتفاصيل الصنف (Modal متوافق مع معايير الوصول العالمية WCAG 2.1) -->
+    <div class="modal-overlay" id="itemModal" aria-hidden="true" role="presentation">
+        <div class="modal-surface" role="dialog" aria-modal="true" aria-labelledby="modalTitle"
+            aria-describedby="modalDesc" tabindex="-1">
+            <div class="modal-drag-handle" aria-hidden="true"></div>
+            <button type="button" class="modal-close" id="modalCloseBtn" aria-label="إغلاق">&times;</button>
+            <div class="modal-scrollable">
+                <div class="modal-img-container">
+                    <img class="modal-img" id="modalImg" src="" alt="" style="display:none;" loading="lazy">
+                    <div class="placeholder-img" id="modalPlaceholder" style="display:none;" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                        </svg>
+                    </div>
+                    <button type="button" class="zoom-hint" id="zoomHintBtn" aria-label="تكبير الصورة">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                                d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 12.01 5 9.5S7.01 5 9.5 5 14 6.99 14 9.5 12.01 14 9.5 14z" />
+                            <path d="M12 10h-2v2H9v-2H7V9h2V7h1v2h2v1z" />
+                        </svg>
+                        <span id="zoomHintText">انقر للتكبير</span>
+                    </button>
+                </div>
+                <div class="modal-content-area">
+                    <h2 class="modal-title" id="modalTitle"></h2>
+                    <p class="modal-price" id="modalPrice"></p>
+                    <div class="ingredients-box" id="ingredientsBox" style="display:none;">
+                        <h3 class="ingredients-heading" id="ingredientsHeading"></h3>
+                        <ul class="ingredients-list" id="ingredientsList"></ul>
+                    </div>
+                    <p class="modal-desc" id="modalDesc"></p>
+                    <div class="modal-chips" id="modalChips"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة عارض الصور المكبرة (Fullscreen Lightbox) -->
+    <div class="lightbox-overlay" id="imageLightbox" aria-hidden="true" role="dialog" aria-modal="true"
+        aria-label="عرض الصورة بالحجم الكامل">
+        <button type="button" class="lightbox-close" id="lightboxClose" aria-label="إغلاق">&times;</button>
+        <div class="lightbox-content">
+            <img class="lightbox-img" id="lightboxImg" src="" alt="">
+            <p class="lightbox-caption" id="lightboxCaption"></p>
+        </div>
+    </div>
+
+    <!-- التذييل -->
+    <footer class="menu-footer" id="dynamic-footer" role="contentinfo"></footer>
+
+</body>
+
+</html>

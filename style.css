@@ -1,0 +1,939 @@
+/* ==========================================================================
+   المتغيرات الأساسية وهوية التصميم (Design Tokens)
+   ========================================================================== */
+:root {
+    --brand-primary-color: #0F4625;
+    --brand-accent-color: #E8501E;
+    --brand-primary-container: #E5F0E8;
+    --brand-accent-container: #FDF0EB;
+    --brand-on-primary: #F6F3EB;
+    --sys-color-background: #FAF7F2;
+    --sys-color-surface: #F3EDE4;
+    --sys-color-text-main: #1A241E;
+    --sys-color-text-muted: #5F6B63;
+    --sys-color-border: #DFD8CD;
+    --top-app-bar-height: 108px;
+    --header-offset: 120px;
+    --transition-standard: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+                          opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+                          background-color 0.25s ease, 
+                          border-color 0.25s ease, 
+                          box-shadow 0.25s ease;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    overflow-x: clip;
+}
+
+html[dir="rtl"], body[dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+}
+
+html[dir="ltr"], body[dir="ltr"] {
+    direction: ltr;
+    text-align: left;
+}
+
+body {
+    background-color: var(--sys-color-background);
+    color: var(--sys-color-text-main);
+    font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 100vh;
+    overflow-x: clip;
+}
+
+html[dir="ltr"] body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+button, input, textarea, select {
+    font-family: inherit;
+    border: none;
+    background: none;
+}
+
+/* سهولة الوصول وحلقات التركيز للوحة المفاتيح */
+button:focus-visible, a:focus-visible, [role="button"]:focus-visible {
+    outline: 2px solid var(--brand-accent-color);
+    outline-offset: 2px;
+}
+
+/* دعم تقليل الحركة للمستخدمين ذوي الحساسية الحركية */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ==========================================================================
+   1. الترويسة وشريط التنقل العلوي الثابت
+   ========================================================================== */
+.top-app-bar {
+    background-color: rgba(255, 251, 255, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    width: 100%;
+}
+
+.top-app-bar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    max-width: 840px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.top-bar-side-space {
+    width: 54px;
+    flex-shrink: 0;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+.logo-container img {
+    height: 40px;
+    max-width: 180px;
+    object-fit: contain;
+    display: block;
+    border-radius: 6px;
+}
+
+.logo-container h1 {
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: var(--brand-primary-color);
+    letter-spacing: -0.5px;
+    text-align: center;
+}
+
+.lang-switch-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 14px;
+    min-width: 54px;
+    height: 32px;
+    border-radius: 9999px;
+    border: 1px solid var(--sys-color-border);
+    background-color: var(--sys-color-surface);
+    color: var(--brand-primary-color);
+    font-weight: 800;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: var(--transition-standard);
+    user-select: none;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+    line-height: 1;
+}
+
+html[dir="rtl"] .lang-switch-btn {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.85rem;
+}
+
+html[dir="ltr"] .lang-switch-btn {
+    font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.94rem;
+}
+
+.lang-switch-btn:hover {
+    background-color: var(--brand-primary-container);
+    border-color: var(--brand-primary-color);
+    transform: scale(1.05);
+}
+
+/* شريط التبويبات (نمط الأزرار الكبسولية / الدائرية المتوافقة مع Material 3) */
+.md-tabs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding: 8px 16px 12px;
+    position: relative;
+    border-bottom: 1px solid var(--sys-color-border);
+    max-width: 840px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.md-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.md-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--sys-color-text-muted);
+    padding: 8px 18px;
+    border-radius: 9999px;
+    background-color: var(--sys-color-surface);
+    border: 1px solid var(--sys-color-border);
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-decoration: none;
+    transition: var(--transition-standard);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+}
+
+.md-tab:hover {
+    color: var(--brand-primary-color);
+    border-color: var(--brand-primary-color);
+    background-color: var(--brand-primary-container);
+}
+
+.md-tab.active {
+    background-color: var(--brand-primary-color);
+    color: var(--brand-on-primary);
+    border-color: var(--brand-primary-color);
+    box-shadow: 0 3px 8px rgba(15, 70, 37, 0.22);
+    transform: scale(1.02);
+}
+
+.md-tab-indicator {
+    display: none;
+}
+
+/* ==========================================================================
+   2. أزرار الفلاتر (شريط تمرير أفقي انسيابي)
+   ========================================================================== */
+.chip-group-wrapper {
+    max-width: 840px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.chip-group {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.chip-group::-webkit-scrollbar {
+    display: none;
+}
+
+.md-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 14px;
+    height: 34px;
+    border-radius: 9999px;
+    border: 1px solid var(--sys-color-border);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--sys-color-text-muted);
+    cursor: pointer;
+    background: var(--sys-color-surface);
+    transition: var(--transition-standard);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.md-chip svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    display: none;
+}
+
+.md-chip.active {
+    background-color: var(--brand-primary-color);
+    color: var(--brand-on-primary);
+    border-color: var(--brand-primary-color);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.md-chip.active svg {
+    display: inline-block;
+}
+
+/* ==========================================================================
+   3. الحاوية الرئيسية وقائمة المنتجات
+   ========================================================================== */
+main {
+    padding: 0 16px;
+    max-width: 840px;
+    margin: 0 auto;
+    min-height: 60vh;
+    width: 100%;
+}
+
+section.menu-section {
+    padding-top: 16px;
+    margin-bottom: 32px;
+    scroll-margin-top: var(--header-offset, 120px);
+    width: 100%;
+}
+
+section.menu-section h2 {
+    position: sticky;
+    top: var(--top-app-bar-height, 108px);
+    z-index: 50;
+    background-color: var(--sys-color-background);
+    padding: 10px 0;
+    margin-bottom: 14px;
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: var(--brand-primary-color);
+    text-align: start;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+section.menu-section h2::after {
+    content: '';
+    flex: 1;
+    min-width: 10px;
+    height: 1px;
+    background-color: var(--sys-color-border);
+    opacity: 0.6;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    width: 100%;
+}
+
+@media (min-width: 620px) {
+    .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+/* ==========================================================================
+   4. بطاقات الأصناف (Cards)
+   ========================================================================== */
+.md-card {
+    background-color: var(--sys-color-surface);
+    border-radius: 18px 6px 18px 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.03);
+    cursor: pointer;
+    transition: var(--transition-standard);
+    position: relative;
+    border: 1px solid var(--sys-color-border);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    will-change: transform;
+}
+
+.md-card:active {
+    transform: scale(0.985);
+}
+
+.card-media {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background-color: var(--sys-color-border);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.md-card:hover .card-media img {
+    transform: scale(1.04);
+}
+
+.placeholder-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: var(--sys-color-text-muted);
+}
+
+.placeholder-img svg {
+    width: 44px;
+    height: 44px;
+    fill: currentColor;
+}
+
+.card-content {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--sys-color-text-main);
+    text-align: start;
+    line-height: 1.4;
+    flex: 1;
+    min-width: 0;
+    word-break: break-word;
+}
+
+.card-price {
+    font-weight: 900;
+    background-color: var(--brand-accent-container);
+    color: var(--brand-accent-color);
+    border: 1px solid rgba(232, 80, 30, 0.2);
+    padding: 4px 11px;
+    border-radius: 9999px;
+    font-size: 0.88rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.card-body {
+    font-size: 0.88rem;
+    color: var(--sys-color-text-muted);
+    margin-bottom: 14px;
+    line-height: 1.6;
+    text-align: start;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+}
+
+.assist-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    border-top: 1px dashed var(--sys-color-border);
+    padding-top: 10px;
+    margin-top: auto;
+}
+
+.assist-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: var(--sys-color-background);
+    border: 1px solid var(--sys-color-border);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--sys-color-text-muted);
+}
+
+/* ==========================================================================
+   5. النافذة المنبثقة (Modal) مع دعم Smart Animate
+   ========================================================================== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.68);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 100%;
+}
+
+@media (min-width: 600px) {
+    .modal-overlay {
+        align-items: center;
+        padding: 20px;
+    }
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-surface {
+    background: var(--sys-color-background);
+    width: 100%;
+    max-width: 540px;
+    border-radius: 28px 28px 0 0;
+    overflow: hidden;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+    transform-origin: center center;
+    will-change: transform, opacity, border-radius;
+    touch-action: pan-y;
+}
+
+@media (min-width: 600px) {
+    .modal-surface {
+        border-radius: 24px;
+        max-height: 85vh;
+    }
+}
+
+.modal-drag-handle {
+    width: 38px;
+    height: 4.5px;
+    background: rgba(0, 0, 0, 0.22);
+    border-radius: 9999px;
+    position: absolute;
+    top: 9px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 25;
+    pointer-events: none;
+}
+
+@media (min-width: 600px) {
+    .modal-drag-handle {
+        display: none;
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.modal-close:hover {
+    background: rgba(0, 0, 0, 0.78);
+    transform: scale(1.08);
+}
+
+.modal-scrollable {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.modal-img-container {
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+    position: relative;
+    background: var(--sys-color-surface);
+}
+
+.modal-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: zoom-in;
+}
+
+.zoom-hint {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 9999px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.zoom-hint:hover {
+    background: rgba(0, 0, 0, 0.85);
+    transform: scale(1.04);
+}
+
+.zoom-hint svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}
+
+.modal-content-area {
+    padding: 22px 20px 30px 20px;
+    text-align: start;
+    will-change: transform, opacity;
+}
+
+.modal-title {
+    font-size: 1.35rem;
+    font-weight: 900;
+    margin-bottom: 10px;
+    color: var(--sys-color-text-main);
+    line-height: 1.35;
+}
+
+.modal-price {
+    font-size: 1.05rem;
+    font-weight: 900;
+    background: var(--brand-accent-container);
+    color: var(--brand-accent-color);
+    border: 1px solid rgba(232, 80, 30, 0.2);
+    display: inline-block;
+    padding: 5px 16px;
+    border-radius: 9999px;
+    margin-bottom: 16px;
+}
+
+.ingredients-box {
+    background: var(--sys-color-surface);
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    border: 1px solid var(--sys-color-border);
+}
+
+.ingredients-heading {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--brand-primary-color);
+    margin-bottom: 8px;
+    text-align: start;
+}
+
+.ingredients-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ingredients-list li {
+    margin-bottom: 6px;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--sys-color-text-main);
+}
+
+.ingredients-list li::before {
+    content: '•';
+    color: var(--brand-primary-color);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.modal-desc {
+    font-size: 0.92rem;
+    color: var(--sys-color-text-muted);
+    margin-bottom: 18px;
+    line-height: 1.7;
+}
+
+.modal-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   5.1 عارض الصور الانغماسي بملء الشاشة (Fullscreen Lightbox)
+   ========================================================================== */
+.lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 20px;
+}
+
+.lightbox-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.lightbox-content {
+    max-width: 92vw;
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transform: scale(0.92);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lightbox-overlay.active .lightbox-content {
+    transform: scale(1);
+}
+
+.lightbox-img {
+    max-width: 100%;
+    max-height: 75vh;
+    object-fit: contain;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    user-select: none;
+}
+
+.lightbox-caption {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-top: 14px;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 26px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    z-index: 3010;
+}
+
+.lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: scale(1.08);
+}
+
+/* ==========================================================================
+   6. تأثير التموج والفوتر
+   ========================================================================== */
+.ripple-surface {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple-anim 600ms linear;
+    background-color: rgba(0, 0, 0, 0.1);
+    pointer-events: none;
+}
+
+@keyframes ripple-anim {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.menu-footer {
+    text-align: center;
+    padding: 44px 16px 36px 16px;
+    background-color: var(--sys-color-surface);
+    margin-top: 48px;
+    border-top: 1px solid var(--sys-color-border);
+    width: 100%;
+}
+
+.footer-container {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.footer-brand-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--brand-primary-color);
+}
+
+.footer-brand-title .brand-en {
+    font-size: 1.45rem;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.footer-brand-title .brand-divider {
+    color: var(--sys-color-border);
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+
+.footer-brand-title .brand-ar, .footer-brand-title .brand-main {
+    font-size: 1.35rem;
+    font-weight: 800;
+}
+
+.footer-address {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--sys-color-text-muted);
+    margin-bottom: 4px;
+}
+
+.footer-social-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 4px 0 8px 0;
+}
+
+.footer-social-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--sys-color-background);
+    color: var(--brand-primary-color);
+    border: 1px solid var(--sys-color-border);
+    text-decoration: none;
+    transition: var(--transition-standard);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+}
+
+.footer-social-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    transition: transform 0.25s ease;
+}
+
+.footer-social-btn:hover {
+    background-color: var(--brand-primary-color);
+    color: var(--brand-on-primary);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.footer-copyright {
+    font-size: 0.85rem;
+    color: var(--sys-color-text-muted);
+    opacity: 0.85;
+    margin-top: 4px;
+}
+
+.no-results-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 16px;
+    text-align: center;
+    background: var(--sys-color-surface);
+    border-radius: 18px;
+    margin: 24px 0;
+    color: var(--sys-color-text-muted);
+    border: 1px dashed var(--sys-color-border);
+}
+
+.no-results-box svg {
+    width: 48px;
+    height: 48px;
+    fill: currentColor;
+    margin-bottom: 12px;
+    opacity: 0.6;
+}
+
+.no-results-box p {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.hidden {
+    display: none !important;
+}

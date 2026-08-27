@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>ملف الأعمال | مطور حلول ويب محترف</title>
+    <meta name="description" content="ملف الأعمال الشخصي لمطور واجهات وحلول ويب ذكية وسريعة. متخصص في بناء تجارب وتطبيقات ويب عصرية فائقة السرعة والتجاوب بنظام Material Design 3.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+
+    <!-- Fonts: IBM Plex Sans Arabic (Arabic) & Plus Jakarta Sans (English) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                screens: {
+                    'xs': '375px',
+                    'sm': '640px',
+                    'md': '768px',
+                    'lg': '1024px',
+                    'xl': '1280px',
+                },
+                extend: {
+                    fontFamily: {
+                        arabic: ["'IBM Plex Sans Arabic'", 'sans-serif'],
+                        english: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'md3-1': '0px 1px 3px 1px rgba(0, 0, 0, 0.08), 0px 1px 2px 0px rgba(0, 0, 0, 0.05)',
+                        'md3-2': '0px 2px 8px 2px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.06)',
+                        'md3-3': '0px 8px 24px 3px rgba(0, 0, 0, 0.12), 0px 2px 6px 0px rgba(0, 0, 0, 0.08)',
+                    },
+                    borderRadius: {
+                        'md3-xs': '4px',
+                        'md3-sm': '8px',
+                        'md3-md': '12px',
+                        'md3-lg': '16px',
+                        'md3-xl': '20px',
+                        'md3-2xl': '28px',
+                        'md3-full': '9999px',
+                    },
+                    animation: {
+                        'float': 'float 5s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-6px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* CSS Variables for Dynamic Light / Dark Theming */
+        :root {
+            --bg-main: #F3F4F6;
+            --surface-card: #FFFFFF;
+            --surface-elevated: #F8FAFC;
+            --surface-input: #E5E7EB;
+            --primary: #1E3A8A;
+            --primary-hover: #172554;
+            --accent: #EA580C;
+            --text-main: #1F2937;
+            --text-muted: #4B5563;
+            --border-color: #E2E8F0;
+            --phone-border: #CBD5E1;
+        }
+
+        html.dark {
+            --bg-main: #0F172A;
+            --surface-card: #1E293B;
+            --surface-elevated: #243248;
+            --surface-input: #334155;
+            --primary: #3B82F6;
+            --primary-hover: #2563EB;
+            --accent: #14B8A6;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --phone-border: #1E293B;
+        }
+
+        * {
+            transition: background-color 0.25s ease, border-color 0.25s ease, color 0.2s ease, box-shadow 0.25s ease;
+            scrollbar-width: thin;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        body.lang-en {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            direction: ltr;
+        }
+
+        .theme-bg { background-color: var(--bg-main); }
+        .theme-surface { background-color: var(--surface-card); }
+        .theme-surface-elevated { background-color: var(--surface-elevated); }
+        .theme-surface-input { background-color: var(--surface-input); }
+        .theme-border { border-color: var(--border-color); }
+        .theme-text { color: var(--text-main); }
+        .theme-text-muted { color: var(--text-muted); }
+        
+        .theme-btn-primary {
+            background-color: var(--primary);
+            color: #ffffff;
+        }
+        .theme-btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Material Ripple Effect */
+        .md3-ripple {
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+        }
+        .md3-ripple::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: width 0.4s ease-out, height 0.4s ease-out, opacity 0.4s ease-out;
+        }
+        .md3-ripple:active::after {
+            width: 250px;
+            height: 250px;
+            opacity: 1;
+            transition: 0s;
+        }
+
+        /* MD3 Floating Label Input with iOS Zoom Prevention (16px base on mobile) */
+        .md3-field-container {
+            position: relative;
+        }
+        .md3-field {
+            width: 100%;
+            padding: 1.25rem 1rem 0.5rem 1rem;
+            border-radius: 12px;
+            border-bottom: 2px solid transparent;
+            font-size: 1rem; /* 16px to prevent iOS Safari zoom */
+            outline: none;
+            background-color: var(--surface-input);
+            color: var(--text-main);
+            min-height: 52px;
+        }
+        @media (min-width: 640px) {
+            .md3-field {
+                font-size: 0.95rem;
+            }
+        }
+        .md3-field:focus {
+            border-bottom-color: var(--primary);
+        }
+        .md3-label {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 0.875rem;
+            pointer-events: none;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+            transform-origin: top right;
+        }
+        body.lang-en .md3-label {
+            right: auto;
+            left: 1rem;
+            transform-origin: top left;
+        }
+        .md3-field:focus ~ .md3-label,
+        .md3-field:not(:placeholder-shown) ~ .md3-label {
+            transform: translateY(-0.65rem) scale(0.8);
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Responsive Mockup Phone Frame */
+        .phone-frame {
+            border: 6px solid var(--phone-border);
+            border-radius: 32px;
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.35);
+            background: #000;
+            overflow: hidden;
+            position: relative;
+            max-width: 100%;
+        }
+        @media (min-width: 640px) {
+            .phone-frame {
+                border-width: 8px;
+                border-radius: 36px;
+            }
+        }
+        .phone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 14px;
+            background: var(--phone-border);
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            z-index: 20;
+        }
+        @media (min-width: 640px) {
+            .phone-notch {
+                width: 110px;
+                height: 16px;
+                border-bottom-left-radius: 12px;
+                border-bottom-right-radius: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body class="theme-bg theme-text min-h-screen pb-20 md:pb-0">
+
+    <!-- Ambient Glowing Accents -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0 opacity-40 dark:opacity-30">
+        <div class="absolute -top-32 right-1/4 w-[350px] sm:w-[450px] h-[350px] sm:h-[450px] bg-blue-500/10 rounded-full blur-[90px] animate-pulse-slow"></div>
+        <div class="absolute top-1/2 left-10 w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] bg-teal-500/10 rounded-full blur-[100px]"></div>
+    </div>
+
+    <!-- Header / Navbar (Adaptive Compact App Bar) -->
+    <header class="sticky top-2 sm:top-3 z-40 max-w-6xl mx-auto px-3 sm:px-6">
+        <div class="theme-surface backdrop-blur-md rounded-xl sm:rounded-md3-2xl px-3.5 py-2.5 sm:px-5 sm:py-3 flex items-center justify-between shadow-md3-2 border theme-border">
+            
+            <!-- Brand / Logo (Space-Efficient on Mobile) -->
+            <a href="#hero" class="flex items-center gap-2 sm:gap-3 group shrink-0">
+                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-md3-lg bg-gradient-to-tr from-blue-600 to-teal-500 flex items-center justify-center text-white font-black text-base sm:text-xl shadow-md group-hover:scale-105 transition-transform">
+                    ⚡
+                </div>
+                <div>
+                    <div class="font-bold theme-text text-sm sm:text-base flex items-center gap-1.5 sm:gap-2">
+                        <span data-i18n="logoTitle">مطور ويب محترف</span>
+                        <span class="hidden xs:inline-flex text-[10px] sm:text-[11px] px-1.5 sm:px-2 py-0.5 rounded-full bg-blue-500/15 text-blue-600 dark:text-blue-400 font-semibold border border-blue-500/20">Web</span>
+                    </div>
+                    <div class="text-[10px] sm:text-xs theme-text-muted hidden sm:block" data-i18n="logoSub">حلول رقمية فائقة السرعة</div>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-6 lg:gap-7 text-sm font-semibold theme-text-muted">
+                <a href="#hero" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" data-i18n="navHome">الرئيسية</a>
+                <a href="#featured" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-teal-500 animate-ping"></span>
+                    <span data-i18n="navProject">المشروع المميز</span>
+                </a>
+                <a href="#pillars" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" data-i18n="navPillars">لماذا تختارني؟</a>
+                <a href="#contact" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" data-i18n="navContact">تواصل معي</a>
+            </nav>
+
+            <!-- Actions (Theme Toggle, Lang Toggle & WhatsApp CTA) -->
+            <div class="flex items-center gap-1.5 sm:gap-2.5">
+                
+                <!-- Dark / Light Mode Toggle Button -->
+                <button id="themeToggle" aria-label="Toggle Theme" class="p-2 sm:p-2.5 rounded-lg sm:rounded-md3-xl theme-surface-input theme-text hover:scale-105 active:scale-95 transition-all shadow-sm border theme-border min-w-[36px] sm:min-w-[42px] min-h-[36px] sm:min-h-[42px] flex items-center justify-center">
+                    <!-- Sun Icon (dark mode active) -->
+                    <svg id="themeIconSun" class="w-4 h-4 sm:w-5 sm:h-5 hidden dark:block fill-current text-yellow-400" viewBox="0 0 24 24">
+                        <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
+                    </svg>
+                    <!-- Moon Icon (light mode active) -->
+                    <svg id="themeIconMoon" class="w-4 h-4 sm:w-5 sm:h-5 block dark:hidden fill-current text-slate-800" viewBox="0 0 24 24">
+                        <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
+                    </svg>
+                </button>
+
+                <!-- Language Switcher -->
+                <button id="langToggle" class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg sm:rounded-md3-xl theme-surface-input theme-text text-xs font-bold hover:scale-105 active:scale-95 transition-all border theme-border min-h-[36px] sm:min-h-[42px]">
+                    English
+                </button>
+
+                <!-- WhatsApp Quick CTA Button -->
+                <a href="https://wa.me/966590099719?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D9%88%D8%AF%20%D9%85%D9%86%D8%A7%D9%82%D8%B4%D8%A9%20%D9%85%D8%B4%D8%B1%D9%88%D8%B9%20%D9%85%D8%B9%D9%83" target="_blank" class="md3-ripple inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-md3-xl theme-btn-primary font-bold text-xs shadow-md active:scale-95 transition-all min-h-[36px] sm:min-h-[42px]">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                    <span class="hidden sm:inline" data-i18n="ctaTalk">تحدث معي</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section (Mobile-Optimized Layout) -->
+    <section id="hero" class="relative z-10 pt-10 pb-14 sm:pt-20 sm:pb-24 px-4 sm:px-6 max-w-6xl mx-auto text-center">
+        <!-- MD3 Pill Badge -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-md3-full theme-surface-elevated border theme-border text-xs sm:text-sm font-bold mb-5 sm:mb-7 animate-float shadow-md3-1 max-w-full">
+            <span class="flex h-2 w-2 relative shrink-0">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
+            </span>
+            <span class="text-blue-600 dark:text-teal-400 truncate" data-i18n="heroBadge">⚡ هندسة وتطوير حلول ويب فائقة السرعة</span>
+        </div>
+
+        <!-- Headline (Responsive Typography with Arabic-Tailored Line-Height) -->
+        <h1 class="text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-black theme-text leading-[1.35] sm:leading-[1.3] lg:leading-[1.28] mb-5 sm:mb-7">
+            <span class="block" data-i18n="heroTitle1">نبني حلول وتطبيقات ويب عصرية</span>
+            <span class="inline-block mt-1.5 sm:mt-2.5 pb-1 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-teal-500 to-indigo-600 dark:from-blue-400 dark:via-teal-300 dark:to-cyan-400" data-i18n="heroTitle2">بسرعة قياسية وجودة استثنائية.</span>
+        </h1>
+
+        <!-- Subheadline -->
+        <p class="max-w-3xl mx-auto text-sm xs:text-base sm:text-lg lg:text-xl theme-text-muted font-normal leading-relaxed sm:leading-loose mb-8 sm:mb-10 px-2" data-i18n="heroSubtitle">
+            متخصص في بناء وتطوير مواقع وتطبيقات ويب تفاعلية متجاوبة ذات جودة استثنائية وبسرعة فائقة، بالتركيز على أفضل معايير تجربة المستخدم والكود النظيف.
+        </p>
+
+        <!-- CTA Buttons (Full Width on Mobile for Ergonomic Tap) -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 max-w-md mx-auto w-full">
+            <a href="#contact" class="md3-ripple w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-md3-xl theme-btn-primary font-extrabold text-sm sm:text-base shadow-md3-2 active:scale-[0.98] transition-all flex items-center justify-center gap-2 min-h-[48px]">
+                <span data-i18n="heroCtaStart">ابدأ مشروعك الآن</span>
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+            <a href="#featured" class="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-md3-xl theme-surface border theme-border theme-text font-bold text-sm sm:text-base hover:shadow-md3-1 transition-all flex items-center justify-center gap-2 min-h-[48px]">
+                <span data-i18n="heroCtaWork">استعرض دراسة الحالة</span>
+            </a>
+        </div>
+
+        <!-- Quick Stats Strip (Responsive 2x2 on Mobile) -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 mt-10 sm:mt-16 max-w-4xl mx-auto">
+            <div class="theme-surface p-3.5 sm:p-5 rounded-xl sm:rounded-md3-2xl border theme-border shadow-md3-1">
+                <div class="text-xl sm:text-3xl font-black text-blue-600 dark:text-blue-400">⚡ 10x</div>
+                <div class="text-[11px] sm:text-sm theme-text-muted mt-0.5 sm:mt-1" data-i18n="stat1">سرعة تنفيذ ونمذجة</div>
+            </div>
+            <div class="theme-surface p-3.5 sm:p-5 rounded-xl sm:rounded-md3-2xl border theme-border shadow-md3-1">
+                <div class="text-xl sm:text-3xl font-black text-teal-600 dark:text-teal-400">📱 100%</div>
+                <div class="text-[11px] sm:text-sm theme-text-muted mt-0.5 sm:mt-1" data-i18n="stat2">تجاوب كامل مع الجوال</div>
+            </div>
+            <div class="theme-surface p-3.5 sm:p-5 rounded-xl sm:rounded-md3-2xl border theme-border shadow-md3-1">
+                <div class="text-xl sm:text-3xl font-black text-cyan-600 dark:text-cyan-400">&lt; 0.8s</div>
+                <div class="text-[11px] sm:text-sm theme-text-muted mt-0.5 sm:mt-1" data-i18n="stat3">سرعة تحميل فائقة</div>
+            </div>
+            <div class="theme-surface p-3.5 sm:p-5 rounded-xl sm:rounded-md3-2xl border theme-border shadow-md3-1">
+                <div class="text-xl sm:text-3xl font-black text-indigo-600 dark:text-indigo-400">MD3</div>
+                <div class="text-[11px] sm:text-sm theme-text-muted mt-0.5 sm:mt-1" data-i18n="stat4">حركات MD3 Expressive</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Case Study (Responsive Vertical Stacking on Mobile) -->
+    <section id="featured" class="relative z-10 py-12 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-14">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-md3-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold mb-3.5 sm:mb-4 border border-blue-500/20" data-i18n="caseStudyBadge">
+                ⭐ دراسة حالة مميزة
+            </div>
+            <h2 class="text-xl xs:text-2xl sm:text-4xl font-extrabold theme-text leading-snug sm:leading-snug" data-i18n="caseStudyTitle">
+                قائمة الطعام الرقمية التفاعلية (Tigliano)
+            </h2>
+            <p class="theme-text-muted text-xs sm:text-base mt-3 sm:mt-4 leading-relaxed max-w-xl mx-auto" data-i18n="caseStudySubtitle">
+                نظام قائمة طعام ذكية متكاملة ومصممة خصيصاً للجوال لتطوير تجربة طلب الطعام وزيادة المبيعات.
+            </p>
+        </div>
+
+        <!-- Material Card Component with Elevation -->
+        <div class="theme-surface rounded-2xl sm:rounded-md3-2xl p-4 sm:p-10 border theme-border shadow-md3-3 transition-all duration-300">
+            <!-- Grid: Vertical column order on mobile, side-by-side on lg -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 items-center">
+                
+                <!-- Details (7 cols on lg, ordered 1st on mobile) -->
+                <div class="lg:col-span-7 space-y-4 sm:space-y-6">
+                    <!-- Material Chips (Horizontal wrap) -->
+                    <div class="flex flex-wrap gap-1.5 sm:gap-2">
+                        <span class="px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-md sm:rounded-md3-sm bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[11px] sm:text-xs font-bold border border-blue-500/20"># Responsive Design</span>
+                        <span class="px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-md sm:rounded-md3-sm bg-teal-500/10 text-teal-600 dark:text-teal-400 text-[11px] sm:text-xs font-bold border border-teal-500/20"># Mobile-First</span>
+                        <span class="px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-md sm:rounded-md3-sm bg-purple-500/10 text-purple-600 dark:text-purple-400 text-[11px] sm:text-xs font-bold border border-purple-500/20"># Fast Prototyping</span>
+                    </div>
+
+                    <!-- Description -->
+                    <p class="theme-text text-sm sm:text-base leading-relaxed" data-i18n="caseDesc">
+                        قائمة طعام إلكترونية تفاعلية متجاوبة بالكامل تم تصميمها لتحسين تجربة طلب الطعام للعملاء. تم بناؤها بالتركيز على سرعة التحميل الفائقة، التنقل السلس على الجوال، ومبادئ واجهات المستخدم الحديثة.
+                    </p>
+
+                    <!-- Problem vs Solution MD3 Cards (Stacked on small mobile, 2 cols on sm) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
+                        <div class="p-3.5 sm:p-4 rounded-xl sm:rounded-md3-xl theme-surface-elevated border theme-border">
+                            <h4 class="font-bold text-rose-500 dark:text-rose-400 text-xs sm:text-sm mb-1.5 sm:mb-2 flex items-center gap-1.5" data-i18n="caseChallHeader">
+                                🎯 التحدي
+                            </h4>
+                            <p class="text-xs sm:text-[13px] theme-text-muted leading-relaxed" data-i18n="caseChallenge">
+                                قوائم الـ PDF ثقيلة وتطبيقات المطاعم تتطلب تحميلاً يزعج الزبائن ويزيد من وقت الانتظار.
+                            </p>
+                        </div>
+
+                        <div class="p-3.5 sm:p-4 rounded-xl sm:rounded-md3-xl theme-surface-elevated border border-teal-500/30">
+                            <h4 class="font-bold text-teal-600 dark:text-teal-400 text-xs sm:text-sm mb-1.5 sm:mb-2 flex items-center gap-1.5" data-i18n="caseSolHeader">
+                                💡 الحل المبتكر
+                            </h4>
+                            <p class="text-xs sm:text-[13px] theme-text-muted leading-relaxed" data-i18n="caseSolution">
+                                تطبيق ويب فوري عبر مسح QR بهوية مطابقة، فلترة مسببات الحساسية، ودعم ثنائي اللغة سلس.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons (Full width on mobile) -->
+                    <div class="flex flex-col sm:flex-row gap-2.5 sm:gap-3 pt-2">
+                        <button onclick="openLiveModal()" class="md3-ripple w-full sm:w-auto px-5 py-3 sm:px-6 sm:py-3.5 rounded-xl sm:rounded-md3-xl theme-btn-primary font-bold text-sm shadow-md3-2 active:scale-95 transition-all flex items-center justify-center gap-2 min-h-[48px]">
+                            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            <span data-i18n="btnLivePreview">جرّب المنيو تفاعلياً (Live Demo)</span>
+                        </button>
+                        <a href="menu.html" target="_blank" class="w-full sm:w-auto px-4 py-3 sm:px-5 sm:py-3.5 rounded-xl sm:rounded-md3-xl theme-surface-input theme-text text-sm font-semibold hover:opacity-90 transition-all flex items-center justify-center gap-2 border theme-border min-h-[48px]">
+                            <span data-i18n="btnOpenDirect">فتح بصفحة كاملة</span>
+                            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Device Mockup Frame (5 cols on lg, centered on mobile) -->
+                <div class="lg:col-span-5 flex justify-center py-4 lg:py-0 w-full">
+                    <div class="phone-frame w-[270px] xs:w-[290px] sm:w-[310px] h-[520px] xs:h-[560px] sm:h-[610px] shadow-2xl relative">
+                        <div class="phone-notch"></div>
+                        <iframe src="menu.html" class="w-full h-full border-none pt-4 bg-slate-950" title="Live Restaurant Menu Preview" loading="lazy"></iframe>
+                        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 px-3 py-1 rounded-md3-full bg-slate-900/90 text-teal-400 text-[11px] font-bold border border-teal-500/30 pointer-events-none shadow-md whitespace-nowrap">
+                            👆 إطار تفاعلي مباشر
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- My Approach / 3 Key Pillars (Vertical Stack on Mobile) -->
+    <section id="pillars" class="relative z-10 py-12 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-14">
+            <h2 class="text-xl xs:text-2xl sm:text-4xl font-extrabold theme-text leading-snug sm:leading-snug" data-i18n="pillarsTitle">
+                منهجية العمل
+            </h2>
+            <p class="theme-text-muted text-xs sm:text-base mt-3 sm:mt-4 leading-relaxed max-w-xl mx-auto" data-i18n="pillarsSubtitle">
+                ثلاثة أعمدة رئيسية تضمن تقديم منتجات فائقة السرعة بدون أي تهاون في الجودة
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+            <!-- Pillar 1 -->
+            <div class="group theme-surface rounded-xl sm:rounded-md3-2xl p-5 sm:p-7 border theme-border shadow-md3-1 hover:shadow-md3-3 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-md3-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl sm:text-2xl mb-4 sm:mb-5 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                        ⚡
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold theme-text leading-snug mb-2.5 sm:mb-3" data-i18n="p1Title">النمذجة السريعة</h3>
+                    <p class="theme-text-muted text-xs sm:text-sm leading-relaxed" data-i18n="p1Desc">
+                        تحويل الأفكار إلى نماذج تفاعلية شغالة خلال ساعات، وليس أسابيع. سرعة في التعديل بناءً على الرؤية المباشرة.
+                    </p>
+                </div>
+                <div class="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t theme-border flex items-center text-xs font-bold text-blue-600 dark:text-blue-400">
+                    <span data-i18n="p1Tag">إطلاق فوري للسوق</span>
+                </div>
+            </div>
+
+            <!-- Pillar 2 -->
+            <div class="group theme-surface rounded-xl sm:rounded-md3-2xl p-5 sm:p-7 border theme-border shadow-md3-1 hover:shadow-md3-3 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-md3-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 flex items-center justify-center text-xl sm:text-2xl mb-4 sm:mb-5 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300">
+                        📱
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold theme-text leading-snug mb-2.5 sm:mb-3" data-i18n="p2Title">تجاوب مثالي للجوال</h3>
+                    <p class="theme-text-muted text-xs sm:text-sm leading-relaxed" data-i18n="p2Desc">
+                        مظهر مثالي وتجربة استخدام خالية من العيوب عبر كافة مقاسات الشاشات وأنظمة الهواتف المحمولة.
+                    </p>
+                </div>
+                <div class="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t theme-border flex items-center text-xs font-bold text-teal-600 dark:text-teal-400">
+                    <span data-i18n="p2Tag">مبني خصيصاً للجوال 100%</span>
+                </div>
+            </div>
+
+            <!-- Pillar 3 -->
+            <div class="group theme-surface rounded-xl sm:rounded-md3-2xl p-5 sm:p-7 border theme-border shadow-md3-1 hover:shadow-md3-3 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-md3-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-xl sm:text-2xl mb-4 sm:mb-5 group-hover:scale-110 group-hover:scale-125 transition-transform duration-300">
+                        💡
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold theme-text leading-snug mb-2.5 sm:mb-3" data-i18n="p3Title">الكفاءة وسرعة الإنجاز</h3>
+                    <p class="theme-text-muted text-xs sm:text-sm leading-relaxed" data-i18n="p3Desc">
+                        توظيف أحدث مسرّعات وهندسة البرمجيات الحديثة لخفض تكاليف وتوقيت الإنجاز وتقديم كود نظيف، سريع، وآمن.
+                    </p>
+                </div>
+                <div class="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t theme-border flex items-center text-xs font-bold text-purple-600 dark:text-purple-400">
+                    <span data-i18n="p3Tag">كود نظيف وأداء متفوق</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section (MD3 Filled Text Fields with Floating Labels) -->
+    <section id="contact" class="relative z-10 py-12 sm:py-20 px-4 sm:px-6 max-w-4xl mx-auto">
+        <div class="theme-surface rounded-2xl sm:rounded-md3-2xl p-5 sm:p-12 border theme-border shadow-md3-3 relative overflow-hidden">
+            
+            <div class="text-center max-w-xl mx-auto mb-6 sm:mb-10">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-md3-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold mb-3.5 sm:mb-4 border border-blue-500/20" data-i18n="contactBadge">
+                    🤝 لنبدأ العمل معاً
+                </div>
+                <h2 class="text-xl xs:text-2xl sm:text-4xl font-extrabold theme-text leading-snug sm:leading-snug" data-i18n="contactTitle">
+                    جاهز لبدء مشروعك القادم؟
+                </h2>
+                <p class="theme-text-muted text-xs sm:text-base mt-3 sm:mt-4 leading-relaxed max-w-lg mx-auto" data-i18n="contactSubtitle">
+                    تواصل معي مباشرة لمناقشة فكرة مشروعك والحصول على نموذج أولي سريع
+                </p>
+            </div>
+
+            <!-- Direct WhatsApp Quick Chat (Full Width & Ergonomic on Mobile) -->
+            <div class="p-4 sm:p-6 rounded-xl sm:rounded-md3-xl theme-surface-elevated border theme-border text-center mb-6 sm:mb-8">
+                <h3 class="theme-text font-bold text-base sm:text-lg leading-snug mb-1.5 sm:mb-2" data-i18n="waTitle">
+                    تفضل بالدردشة المباشرة عبر واتساب
+                </h3>
+                <p class="theme-text-muted text-xs sm:text-sm leading-relaxed mb-4 sm:mb-5" data-i18n="waDesc">
+                    أسرع وسيلة لمناقشة التفاصيل والبدء في تنفيذ المشروع فوراً
+                </p>
+                <a href="https://wa.me/966590099719?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%B4%D8%A7%D9%87%D8%AF%D8%AA%20%D9%85%D9%84%D9%81%20%D8%A3%D8%B9%D9%85%D8%A7%D9%84%D9%83%20%D9%88%D8%A3%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%AA%D9%86%D9%81%D9%8A%D8%B0%20%D9%85%D8%B4%D8%B1%D9%88%D8%B9" target="_blank" class="md3-ripple inline-flex items-center justify-center gap-2.5 px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl sm:rounded-md3-xl bg-teal-600 dark:bg-teal-500 text-white font-black text-xs sm:text-sm shadow-md transition-all w-full sm:w-auto min-h-[48px]">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 fill-current shrink-0" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                    <span data-i18n="waButton">تواصل عبر واتساب الآن</span>
+                </a>
+            </div>
+
+            <!-- MD3 Styled Filled Form with Floating Labels -->
+            <form id="contactForm" onsubmit="handleFormSubmit(event)" class="space-y-3.5 sm:space-y-4">
+                <input type="hidden" name="access_key" value="7cb3297c-ea51-4dc2-af78-79a065fc58d3">
+                <input type="hidden" name="subject" value="رسالة جديدة من ملف الأعمال الشخصي">
+                <input type="hidden" name="from_name" value="Portfolio Inquiries">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    
+                    <!-- Field 1: Name -->
+                    <div class="md3-field-container">
+                        <input type="text" id="senderName" name="name" required placeholder=" " class="md3-field">
+                        <label for="senderName" class="md3-label" data-i18n="formName">الاسم الكريم</label>
+                    </div>
+
+                    <!-- Field 2: Email -->
+                    <div class="md3-field-container">
+                        <input type="text" id="senderContact" name="email_or_phone" required placeholder=" " class="md3-field">
+                        <label for="senderContact" class="md3-label" data-i18n="formEmail">البريد الإلكتروني أو رقم الجوال</label>
+                    </div>
+                </div>
+
+                <!-- Field 3: Message -->
+                <div class="md3-field-container">
+                    <textarea id="senderMessage" name="message" rows="4" required placeholder=" " class="md3-field"></textarea>
+                    <label for="senderMessage" class="md3-label" data-i18n="formMsg">تفاصيل ومتطلبات المشروع</label>
+                </div>
+
+                <!-- MD3 Contained Button -->
+                <button type="submit" id="submitBtn" class="md3-ripple w-full py-3.5 sm:py-4 rounded-xl sm:rounded-md3-xl theme-btn-primary font-extrabold text-sm sm:text-base shadow-md3-2 active:scale-[0.99] transition-all flex items-center justify-center gap-2 min-h-[48px]">
+                    <span id="submitBtnText" data-i18n="formSubmit">إرسال تفاصيل المشروع</span>
+                    <svg id="submitSpinner" class="w-4 h-4 animate-spin hidden" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+                </button>
+            </form>
+            <div id="formSuccess" class="hidden mt-4 p-4 rounded-xl sm:rounded-md3-xl bg-teal-500/15 border border-teal-500/30 text-teal-600 dark:text-teal-400 text-center text-xs sm:text-sm font-bold">
+                ✅ تم استلام رسالتك وتفاصيل مشروعك بنجاح! تم إرسال إشعار إلى بريدي وسأتواصل معك في أقرب وقت.
+            </div>
+            <div id="formError" class="hidden mt-4 p-4 rounded-xl sm:rounded-md3-xl bg-rose-500/15 border border-rose-500/30 text-rose-600 dark:text-rose-400 text-center text-xs sm:text-sm font-bold">
+                ❌ حدث خطأ أثناء الإرسال. يمكنك مراسلتي مباشرة عبر واتساب بالأعلى.
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 border-t theme-border py-6 sm:py-8 px-4 text-center text-xs theme-text-muted">
+        <p data-i18n="footerText">© 2026 جميع الحقوق محفوظة — تطوير وتصميم ويب عصري فائق السرعة ⚡</p>
+    </footer>
+
+    <!-- Mobile Bottom Navigation Bar (MD3 Floating Thumb Zone Navigation) -->
+    <nav class="md:hidden fixed bottom-3 left-3 right-3 z-40 theme-surface/95 backdrop-blur-lg rounded-2xl border theme-border shadow-md3-3 px-4 py-2 flex items-center justify-around">
+        <a href="#hero" class="flex flex-col items-center gap-0.5 text-[11px] font-bold theme-text-muted hover:text-blue-600">
+            <span class="text-base">🏠</span>
+            <span data-i18n="navHome">الرئيسية</span>
+        </a>
+        <a href="#featured" class="flex flex-col items-center gap-0.5 text-[11px] font-bold theme-text-muted hover:text-blue-600">
+            <span class="text-base">⭐</span>
+            <span data-i18n="navProject">المشروع</span>
+        </a>
+        <a href="#pillars" class="flex flex-col items-center gap-0.5 text-[11px] font-bold theme-text-muted hover:text-blue-600">
+            <span class="text-base">💡</span>
+            <span data-i18n="navPillars">المزايا</span>
+        </a>
+        <a href="#contact" class="flex flex-col items-center gap-0.5 text-[11px] font-bold theme-text-muted hover:text-blue-600">
+            <span class="text-base">✉️</span>
+            <span data-i18n="navContact">تواصل</span>
+        </a>
+    </nav>
+
+    <!-- Interactive Live Preview Modal -->
+    <div id="liveModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4">
+        <div class="relative w-full max-w-md h-[90vh] theme-bg rounded-2xl sm:rounded-md3-2xl border theme-border shadow-2xl flex flex-col overflow-hidden">
+            <div class="px-4 py-3 sm:px-5 sm:py-3.5 theme-surface border-b theme-border flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-teal-500 animate-pulse"></span>
+                    <span class="text-xs sm:text-sm font-bold theme-text truncate">Live Interactive Demo (Tigliano Menu)</span>
+                </div>
+                <button onclick="closeLiveModal()" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full theme-surface-input theme-text flex items-center justify-center text-xs sm:text-sm font-bold transition-colors">
+                    ✕
+                </button>
+            </div>
+            <div class="flex-1 bg-black relative">
+                <iframe src="menu.html" class="w-full h-full border-none" title="Live Preview Modal"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts: Theme Toggle, Multilingual Dictionary & Interactions -->
+    <script>
+        // Theme Toggle Handler (Dark / Light Mode)
+        const html = document.documentElement;
+        const themeToggleBtn = document.getElementById('themeToggle');
+
+        // Check stored theme or default to dark
+        const storedTheme = localStorage.getItem('app-theme') || 'dark';
+        if (storedTheme === 'light') {
+            html.classList.remove('dark');
+        } else {
+            html.classList.add('dark');
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('app-theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('app-theme', 'dark');
+            }
+        });
+
+        // Multilingual Dictionary
+        const translations = {
+            ar: {
+                logoTitle: "مطور ويب محترف",
+                logoSub: "حلول رقمية فائقة السرعة",
+                navHome: "الرئيسية",
+                navProject: "المشروع المميز",
+                navPillars: "لماذا تختارني؟",
+                navContact: "تواصل معي",
+                ctaTalk: "تحدث معي",
+                heroBadge: "⚡ هندسة وتطوير حلول ويب فائقة السرعة",
+                heroTitle1: "نبني حلول وتطبيقات ويب عصرية",
+                heroTitle2: "بسرعة قياسية وجودة استثنائية.",
+                heroSubtitle: "متخصص في بناء وتطوير مواقع وتطبيقات ويب تفاعلية متجاوبة ذات جودة استثنائية وبسرعة فائقة، بالتركيز على أفضل معايير تجربة المستخدم والكود النظيف.",
+                heroCtaStart: "ابدأ مشروعك الآن",
+                heroCtaWork: "استعرض دراسة الحالة",
+                stat1: "سرعة تنفيذ ونمذجة",
+                stat2: "تجاوب كامل مع الجوال",
+                stat3: "سرعة تحميل فائقة",
+                stat4: "حركات MD3 Expressive",
+                caseStudyBadge: "⭐ دراسة حالة مميزة",
+                caseStudyTitle: "قائمة الطعام الرقمية التفاعلية (Tigliano)",
+                caseStudySubtitle: "نظام قائمة طعام ذكية متكاملة ومصممة خصيصاً للجوال لتطوير تجربة طلب الطعام وزيادة المبيعات.",
+                caseDesc: "قائمة طعام إلكترونية تفاعلية متجاوبة بالكامل تم تصميمها لتحسين تجربة طلب الطعام للعملاء. تم بناؤها بالتركيز على سرعة التحميل الفائقة، التنقل السلس على الجوال، ومبادئ واجهات المستخدم الحديثة.",
+                caseChallHeader: "🎯 التحدي",
+                caseChallenge: "قوائم الـ PDF ثقيلة وتطبيقات المطاعم تتطلب تحميلاً يزعج الزبائن ويزيد من وقت الانتظار.",
+                caseSolHeader: "💡 الحل المبتكر",
+                caseSolution: "تطبيق ويب فوري عبر مسح QR بهوية مطابقة، فلترة مسببات الحساسية، ودعم ثنائي اللغة سلس.",
+                btnLivePreview: "جرّب المنيو تفاعلياً (Live Demo)",
+                btnOpenDirect: "فتح بصفحة كاملة",
+                pillarsTitle: "منهجية العمل",
+                pillarsSubtitle: "ثلاثة أعمدة رئيسية تضمن تقديم منتجات فائقة السرعة بدون أي تهاون في الجودة",
+                p1Title: "النمذجة السريعة",
+                p1Desc: "تحويل الأفكار إلى نماذج تفاعلية شغالة خلال ساعات، وليس أسابيع. سرعة في التعديل بناءً على الرؤية المباشرة.",
+                p1Tag: "إطلاق فوري للسوق",
+                p2Title: "تجاوب مثالي للجوال",
+                p2Desc: "مظهر مثالي وتجربة استخدام خالية من العيوب عبر كافة مقاسات الشاشات وأنظمة الهواتف المحمولة.",
+                p2Tag: "مبني خصيصاً للجوال 100%",
+                p3Title: "الكفاءة وسرعة الإنجاز",
+                p3Desc: "توظيف أحدث مسرّعات وهندسة البرمجيات الحديثة لخفض تكاليف وتوقيت الإنجاز وتقديم كود نظيف، سريع، وآمن.",
+                p3Tag: "كود نظيف وأداء متفوق",
+                contactBadge: "🤝 لنبدأ العمل معاً",
+                contactTitle: "جاهز لبدء مشروعك القادم؟",
+                contactSubtitle: "تواصل معي مباشرة لمناقشة فكرة مشروعك والحصول على نموذج أولي سريع",
+                waTitle: "تفضل بالدردشة المباشرة عبر واتساب",
+                waDesc: "أسرع وسيلة لمناقشة التفاصيل والبدء في تنفيذ المشروع فوراً",
+                waButton: "تواصل عبر واتساب الآن",
+                formName: "الاسم الكريم",
+                formEmail: "البريد الإلكتروني أو رقم الجوال",
+                formMsg: "تفاصيل ومتطلبات المشروع",
+                formSubmit: "إرسال تفاصيل المشروع",
+                footerText: "© 2026 جميع الحقوق محفوظة — تطوير وتصميم ويب عصري فائق السرعة ⚡"
+            },
+            en: {
+                logoTitle: "Web Solutions Developer",
+                logoSub: "Lightning-Fast Solutions",
+                navHome: "Home",
+                navProject: "Featured Case Study",
+                navPillars: "Why Work With Me",
+                navContact: "Contact",
+                ctaTalk: "Let's Talk",
+                heroBadge: "⚡ Modern & High-Performance Web Engineering",
+                heroTitle1: "Building Modern Digital Solutions",
+                heroTitle2: "at Lightning Speed.",
+                heroSubtitle: "I deliver high-quality, responsive web applications at high speed. Focused on exceptional UX, clean code, and solving real business problems.",
+                heroCtaStart: "Start Your Project",
+                heroCtaWork: "View Case Study",
+                stat1: "Rapid Prototyping",
+                stat2: "Mobile Responsiveness",
+                stat3: "Ultra-Fast Load",
+                stat4: "MD3 Expressive Motion",
+                caseStudyBadge: "⭐ Featured Case Study",
+                caseStudyTitle: "Interactive Digital Restaurant Menu",
+                caseStudySubtitle: "A fully responsive, professional digital menu designed to enhance the customer ordering experience.",
+                caseDesc: "A fully responsive, professional digital menu designed to enhance the customer ordering experience. Built with a focus on fast load times, seamless mobile navigation, and modern UI principles.",
+                caseChallHeader: "🎯 The Challenge",
+                caseChallenge: "Clumsy PDF menus and slow native apps cause friction, frustrating customers and slowing table turnaround times.",
+                caseSolHeader: "💡 The Solution",
+                caseSolution: "Instant QR-accessible web app with brand-matched aesthetics, allergen filters, zero load delay, and bilingual support.",
+                btnLivePreview: "Live Interactive Demo",
+                btnOpenDirect: "Open Fullscreen",
+                pillarsTitle: "My Approach",
+                pillarsSubtitle: "Three foundational pillars delivering lightning-fast engineering with zero compromise on quality",
+                p1Title: "Rapid Prototyping",
+                p1Desc: "Turning ideas into fully functional, interactive prototypes in hours, not weeks. Rapid iteration based on immediate feedback.",
+                p1Tag: "Instant Time-to-Market",
+                p2Title: "Flawless Responsiveness",
+                p2Desc: "Pixel-perfect display and intuitive interaction across all devices, mobile platforms, and screen sizes from day one.",
+                p2Tag: "100% Mobile-First UX",
+                p3Title: "High-Efficiency Engineering",
+                p3Desc: "Utilizing modern developer workflows to drastically reduce delivery timelines and costs while maintaining top-tier architecture.",
+                p3Tag: "Clean Code & High Performance",
+                contactBadge: "🤝 Let's Build Together",
+                contactTitle: "Ready to Start Your Project?",
+                contactSubtitle: "Reach out directly for a rapid consultation and functional prototype",
+                waTitle: "Chat Directly on WhatsApp",
+                waDesc: "The fastest way to discuss requirements, timeline, and kickstart your project",
+                waButton: "Open WhatsApp Chat",
+                formName: "Your Full Name",
+                formEmail: "Email or Phone Number",
+                formMsg: "Project Details & Requirements",
+                formSubmit: "Send Project Inquiry",
+                footerText: "© 2026 All Rights Reserved — Crafted with Material Design 3 & Modern Web Tech ⚡"
+            }
+        };
+
+        let currentLang = 'ar';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const htmlEl = document.documentElement;
+            const bodyEl = document.body;
+            const btn = document.getElementById('langToggle');
+
+            if (lang === 'en') {
+                htmlEl.setAttribute('lang', 'en');
+                htmlEl.setAttribute('dir', 'ltr');
+                bodyEl.classList.add('lang-en');
+                btn.textContent = 'العربية';
+            } else {
+                htmlEl.setAttribute('lang', 'ar');
+                htmlEl.setAttribute('dir', 'rtl');
+                bodyEl.classList.remove('lang-en');
+                btn.textContent = 'English';
+            }
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        document.getElementById('langToggle').addEventListener('click', () => {
+            setLanguage(currentLang === 'ar' ? 'en' : 'ar');
+        });
+
+        // Modal Handlers
+        function openLiveModal() {
+            const modal = document.getElementById('liveModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLiveModal() {
+            const modal = document.getElementById('liveModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Contact Form handler (Web3Forms AJAX Submission)
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            const form = document.getElementById('contactForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const submitBtnText = document.getElementById('submitBtnText');
+            const submitSpinner = document.getElementById('submitSpinner');
+            const formSuccess = document.getElementById('formSuccess');
+            const formError = document.getElementById('formError');
+
+            // Hide old alerts
+            formSuccess.classList.add('hidden');
+            formError.classList.add('hidden');
+
+            // Loading state
+            submitBtn.disabled = true;
+            submitSpinner.classList.remove('hidden');
+            const originalText = submitBtnText.textContent;
+            submitBtnText.textContent = currentLang === 'ar' ? 'جاري الإرسال...' : 'Sending...';
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    form.reset();
+                    formSuccess.classList.remove('hidden');
+                } else {
+                    formError.classList.remove('hidden');
+                }
+            } catch (err) {
+                console.error(err);
+                formError.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                submitSpinner.classList.add('hidden');
+                submitBtnText.textContent = originalText;
+            }
+        }
+    </script>
+</body>
+
+</html>
